@@ -2,8 +2,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 // Creating Remote interface for our application
-public interface MSTInterface extends Remote {
-
+public interface MSTInterface extends Remote
+{
    public void add_graph(String id, int n)
       throws RemoteException;
 
