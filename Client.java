@@ -39,7 +39,7 @@ public class Client
                int u = Integer.parseInt(arguments[2]);
                int v = Integer.parseInt(arguments[3]);
                int w = Integer.parseInt(arguments[4]);
-               stub.add_graph(id, u, v, w);
+               stub.add_edge(id, u, v, w);
             }
 
             else if(request == 'm')

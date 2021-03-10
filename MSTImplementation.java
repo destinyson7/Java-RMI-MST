@@ -5,12 +5,19 @@ public class MSTImplementation implements MSTInterface {
    public class Graph
    {
       public int n;
+      public int[] parent;
+      public int[] siz;
+
+      Graph(int n)
+      {
+         this.n = n;
+         this.parent = new int[n + 5];
+         this.siz = new int[n + 5];
+      }
 
       public class Edge implements Comparable<Edge>
       {
-         public int u;
-         public int v;
-         public int w;
+         public int u, v, w;
 
          public int compareTo(Edge cur)
          {
@@ -40,9 +47,68 @@ public class MSTImplementation implements MSTInterface {
          adj.add(cur_edge);
       }
 
+      int find(int u)
+      {
+         if(parent[u] == u)
+         {
+            return u;
+         }
+
+         return parent[u] = find(parent[u]);
+      }
+
+      void union(int u, int v)
+      {
+         int a = parent[u];
+         int b = parent[v];
+
+         if(siz[a] < siz[b])
+         {
+            parent[a] = b;
+            siz[b] += siz[a];
+         }
+
+         else
+         {
+            parent[b] = a;
+            siz[a] += siz[b];
+         }
+      }
+
       public int kruskals()
       {
+         for(int i = 0; i <= n; i++)
+         {
+            parent[i] = i;
+            siz[i] = 1;
+         }
 
+         int count = 0, ans = 0;
+
+         for(Edge cur_edge: adj)
+         {
+            int u = cur_edge.u;
+            int v = cur_edge.v;
+            int w = cur_edge.w;
+
+            if(find(u) != find(v))
+            {
+               ans += w;
+               count++;
+
+               union(u, v);
+            }
+         }
+
+         if(count == n - 1)
+         {
+            return ans;
+         }
+
+         else
+         {
+            return -1;
+         }
       }
    }
 
@@ -51,8 +117,7 @@ public class MSTImplementation implements MSTInterface {
    // Implementing the interface methods
    public void add_graph(String id, int n)
    {
-      Graph new_graph = new Graph();
-      new_graph.n = n;
+      Graph new_graph = new Graph(n);
       graphs.put(id, new_graph);
    }
 
